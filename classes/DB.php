@@ -4,7 +4,7 @@
 class DB
 {
     private $dbh;
-    private $className;
+    private $className = 'stdClass';
 
     public function __construct()
     {
@@ -22,5 +22,16 @@ class DB
         $sth = $this->dbh->prepare($sql);
         $sth->execute($params);
         return $sth->fetchAll(PDO::FETCH_CLASS, $this->className);
+    }
+
+    public function execute($sql, $params = [])
+    {
+        $sth = $this->dbh->prepare($sql);
+        return $sth->execute($params);
+    }
+
+    public function lastInsertId()
+    {
+        return $this->dbh->lastInsertId();
     }
 }
